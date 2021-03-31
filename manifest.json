@@ -1,13 +1,5 @@
 {
   "author": "Bitter Buffalo, Alex Schumaker, Tom Grant",
-  "page_action": {
-    "default_icon": "images/icon_16.png",
-    "default_title": "Toggle Dark Mode"
-  },
-  "background": {
-    "scripts": ["scripts/background.js"],
-    "persistent": false
-  },
   "content_scripts": [
     {
       "all_frames": true,
@@ -17,11 +9,6 @@
         "*://*.funimation.com/shows/*",
         "*://*.funimation.com/player/*"
       ]
-    },
-    {
-      "js": ["scripts/DarkMode.js"],
-      "matches": ["*://*.funimation.com/*"],
-      "run_at": "document_end"
     }
   ],
   "description": "Successor to FunimationFix by Bitter Buffalo. Brings essential keybinds to Funimation's lackluster player, DarkMode style to video pages, and auto-resizing",

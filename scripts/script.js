@@ -15,11 +15,6 @@
       }
     });
 
-    chrome.runtime.sendMessage({
-      from: "content",
-      subject: "showPageAction",
-    });
-
     // DARK MODE STYLES
     var darkmode = document.createElement("style");
     darkmode.type = "text/css";
