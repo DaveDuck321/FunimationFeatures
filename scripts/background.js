@@ -5,14 +5,14 @@
 // });
 
 chrome.pageAction.onClicked.addListener(function (tab) {
-	chrome.tabs.sendMessage(tab.id, {
-		from: "FFBackground",
-		subject: "toggle"
-	})
+  chrome.tabs.sendMessage(tab.id, {
+    from: "FFBackground",
+    subject: "toggle",
+  });
 });
 
-chrome.runtime.onMessage.addListener(function(msg, sender) {
-	if (msg.subject === 'showPageAction') {
-		chrome.pageAction.show(sender.tab.id);
-	}
+chrome.runtime.onMessage.addListener(function (msg, sender) {
+  if (msg.subject === "showPageAction") {
+    chrome.pageAction.show(sender.tab.id);
+  }
 });

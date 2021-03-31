@@ -1,39 +1,39 @@
 {
-   "author": "Bitter Buffalo, Alex Schumaker, Tom Grant",
-   "page_action": {
-      "default_icon": "images/icon_16.png",
-      "default_title": "Toggle Dark Mode"
-   },
-   "background": {
-      "scripts":["scripts/background.js"],
-      "persistent": false
-   },
-   "content_scripts": [ 
-      {
-         "all_frames": true,
-         "css": [ "styles/style.css" ],
-         "js": [ "scripts/script.js" ],
-         "matches": [ "*://*.funimation.com/shows/*", "*://*.funimation.com/player/*"]
-      },
-      {
-         "js": [ "scripts/DarkMode.js"],
-         "matches": [ "*://*.funimation.com/*" ],
-         "run_at": "document_end"
-      }
-   ],
-   "description": "Successor to FunimationFix by Bitter Buffalo. Brings essential keybinds to Funimation's lackluster player, DarkMode style to video pages, and auto-resizing",
-   "icons": {
-      "128": "images/icon_128.png",
-      "16": "images/icon_16.png",
-      "32": "images/icon_32.png",
-      "48": "images/icon_48.png"
-   },
-   "manifest_version": 2,
-   "name": "FunimationFeatures",
-   "version": "1.1",
-   "web_accessible_resources": [ "scripts/inject.js" ],
-   "permissions":[
-      "tabs",
-      "storage"
-   ]
+  "author": "Bitter Buffalo, Alex Schumaker, Tom Grant",
+  "page_action": {
+    "default_icon": "images/icon_16.png",
+    "default_title": "Toggle Dark Mode"
+  },
+  "background": {
+    "scripts": ["scripts/background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "css": ["styles/style.css"],
+      "js": ["scripts/script.js"],
+      "matches": [
+        "*://*.funimation.com/shows/*",
+        "*://*.funimation.com/player/*"
+      ]
+    },
+    {
+      "js": ["scripts/DarkMode.js"],
+      "matches": ["*://*.funimation.com/*"],
+      "run_at": "document_end"
+    }
+  ],
+  "description": "Successor to FunimationFix by Bitter Buffalo. Brings essential keybinds to Funimation's lackluster player, DarkMode style to video pages, and auto-resizing",
+  "icons": {
+    "128": "images/icon_128.png",
+    "16": "images/icon_16.png",
+    "32": "images/icon_32.png",
+    "48": "images/icon_48.png"
+  },
+  "manifest_version": 2,
+  "name": "FunimationFeatures",
+  "version": "1.1",
+  "web_accessible_resources": ["scripts/inject.js"],
+  "permissions": ["tabs", "storage"]
 }
