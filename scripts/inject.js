@@ -23,19 +23,15 @@
 
   // add keybinds!
   document.addEventListener("keydown", function (e) {
-    // e.preventDefault();
-    // try{e.stopPropagation();}catch(err){}
-
     switch (e.which) {
       case 37: // left arrow
         if (!(e.metaKey || e.shiftKey)) {
-          // $('#funimation-control-back').trigger('click');
           videoPlayer.currentTime = videoPlayer.currentTime - 5;
         }
         break;
       case 38: // shift/meta + up arrow
         if (e.shiftKey || e.metaKey) {
-          speedControl(true);
+          speedControl(0.25);
         } else if (videoPlayer.volume < 1) {
           e.preventDefault();
           videoPlayer.volume = videoPlayer.volume + 0.1;
@@ -43,13 +39,12 @@
         break;
       case 39: // right arrow
         if (!(e.metaKey || e.ctrlKey)) {
-          // $('#funimation-control-forward').trigger('click');
           videoPlayer.currentTime = videoPlayer.currentTime + 5;
         }
         break;
       case 40: // shift/meta + down arrow
         if (e.shiftKey || e.metaKey) {
-          speedControl(false);
+          speedControl(-0.25);
         } else if (videoPlayer.volume > 0) {
           e.preventDefault();
           videoPlayer.volume = videoPlayer.volume - 0.1;
@@ -63,7 +58,7 @@
       case 32: // spacebar
         if (!playerFocus && (!e.metaKey || e.ctrlKey)) {
           e.preventDefault();
-          // videoPlayer.paused ? videoPlayer.play() : videoPlayer.pause()
+          // Use the HTML click here to avoid desyncing GUI
           playerDoc.getElementById("funimation-control-playback").click();
         }
         break;
@@ -82,16 +77,11 @@
     }
   });
 
-  function speedControl(up) {
-    if (up) {
-      if (videoPlayer.playbackRate < 4) {
-        videoPlayer.playbackRate = videoPlayer.playbackRate + 0.25;
-      }
-    } else {
-      if (videoPlayer.playbackRate > 0.25) {
-        videoPlayer.playbackRate = videoPlayer.playbackRate - 0.25;
-      }
-    }
+  function speedControl(increment) {
+    videoPlayer.playbackRate = Math.max(
+      Math.min(videoPlayer.playbackRate + change, 4.0),
+      0.25
+    );
 
     videoPlayer.playbackDisplay.innerHTML =
       "<span>" + videoPlayer.playbackRate + "</span>";
@@ -115,7 +105,7 @@
     playerDoc.getElementById("funimation-control-playback").click();
   }
 
-  // this is some really nice ui code from the original FunimationFix!
+  // this is some ui code from the original FunimationFix!
   function initUI() {
     if (
       document.getElementsByClassName("funimation-controls-right").length > 0

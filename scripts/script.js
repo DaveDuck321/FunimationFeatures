@@ -9,53 +9,6 @@
 
     var version = "1.0";
 
-    chrome.runtime.onMessage.addListener(function (msg, sender, response) {
-      if (msg.from === "FFBackground" && msg.subject === "toggle") {
-        toggleDarkMode();
-      }
-    });
-
-    // DARK MODE STYLES
-    var darkmode = document.createElement("style");
-    darkmode.type = "text/css";
-    darkmode.id = "FFDark";
-    darkmode.appendChild(
-      document.createTextNode(
-        `body, .panel-title {
-					background: #1b1b1b;
-					color: white;
-				}
-
-				.panel {
-					background: #1b1b1b;
-				}
-
-				header {
-					background: darkgray;
-					box-shadow: 0px 10px 30px black;
-				}
-
-				a {
-					color: darkgray;
-				}
-
-				#comments-section a:hover {
-					color: #e30046;
-				}
-
-				#comments-section a {
-					background: #1b1b1b;
-				}`
-      )
-    );
-
-    // if (window.localStorage.getItem('FFDarkEnabled') === "true") {
-    // 	document.getElementsByTagName('head')[0].appendChild(darkmode)
-    // }
-    // else if (window.localStorage.getItem('FFDarkEnabled') === null) {
-    // 	toggleDarkMode()
-    // }
-
     // resizing function realized by Bitter Buffalo.
     function setSize() {
       try {
@@ -81,18 +34,6 @@
 
     window.addEventListener("resize", setSize);
     setSize();
-
-    function toggleDarkMode() {
-      if (document.getElementById("FFDark") === null) {
-        document.getElementsByTagName("head")[0].appendChild(darkmode);
-        window.localStorage.setItem("FFDarkEnabled", "true");
-      } else {
-        document
-          .getElementsByTagName("head")[0]
-          .removeChild(document.getElementById("FFDark"));
-        window.localStorage.setItem("FFDarkEnabled", "false");
-      }
-    }
   }
 
   var script = document.createElement("script");
