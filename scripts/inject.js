@@ -72,10 +72,22 @@
       case 70: // F
         playerDoc.getElementById("funimation-control-fullscreen").click();
         break;
+      case 72: //h
+        toggleSubs();
+        break;
       default:
         break;
     }
   });
+
+  function toggleSubs() {
+    var DOMSubs = playerDoc.getElementsByClassName("vjs-text-track-display")[0];
+    if (DOMSubs.style.visibility === "hidden") {
+      DOMSubs.style.visibility = "";
+    } else {
+      DOMSubs.style.visibility = "hidden";
+    }
+  }
 
   function speedControl(increment) {
     videoPlayer.playbackRate = Math.max(
