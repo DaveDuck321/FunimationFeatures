@@ -65,8 +65,7 @@
       case 48: // shift/meta + 0
         if (e.shiftKey || e.metaKey) {
           videoPlayer.playbackRate = 1;
-          videoPlayer.playbackDisplay.innerHTML =
-            "<span>" + videoPlayer.playbackRate + "</span>";
+          updatePlaybackGUI();
         }
         break;
       case 70: // F
@@ -81,7 +80,7 @@
   });
 
   function toggleSubs() {
-    var DOMSubs = playerDoc.getElementsByClassName("vjs-text-track-display")[0];
+    let DOMSubs = playerDoc.getElementsByClassName("vjs-text-track-display")[0];
     if (DOMSubs.style.visibility === "hidden") {
       DOMSubs.style.visibility = "";
     } else {
@@ -91,12 +90,11 @@
 
   function speedControl(increment) {
     videoPlayer.playbackRate = Math.max(
-      Math.min(videoPlayer.playbackRate + change, 4.0),
+      Math.min(videoPlayer.playbackRate + increment, 4.0),
       0.25
     );
 
-    videoPlayer.playbackDisplay.innerHTML =
-      "<span>" + videoPlayer.playbackRate + "</span>";
+    updatePlaybackGUI();
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -117,27 +115,32 @@
     playerDoc.getElementById("funimation-control-playback").click();
   }
 
-  // this is some ui code from the original FunimationFix!
+  // this is some (modified) ui code from the original FunimationFix!
   function initUI() {
     if (
       document.getElementsByClassName("funimation-controls-right").length > 0
     ) {
-      var playback = document.createElement("div");
-      playback.id = "playback";
-      playback.className = "funimation-control funifix-control";
-      playback.style.width = "20px";
-      playback.innerHTML = "<span>" + videoPlayer.playbackRate + "</span>";
-      var currentTime = document.createElement("div");
-      currentTime.id = "currentTime";
-      currentTime.className = "funimation-control funifix-control";
-      currentTime.style.width = "160px";
-      currentTime.innerHTML = "<span>0:00 / 0:00</span>";
+      let playback = document.createElement("span");
+      playback.innerText = videoPlayer.playbackRate;
+      let playbackContainer = document.createElement("div");
+      playbackContainer.id = "playback";
+      playbackContainer.className = "funimation-control funifix-control";
+      playbackContainer.style.width = "20px";
+      playbackContainer.appendChild(playback);
 
-      var controls = document.getElementsByClassName(
+      let currentTime = document.createElement("span");
+      currentTime.innerText = "0:00 / 0:00";
+      let currentTimeContainer = document.createElement("div");
+      currentTimeContainer.id = "currentTime";
+      currentTimeContainer.className = "funimation-control funifix-control";
+      currentTimeContainer.style.width = "160px";
+      currentTimeContainer.appendChild(currentTime);
+
+      let controls = document.getElementsByClassName(
         "funimation-controls-right"
       )[0];
-      controls.insertBefore(playback, controls.firstChild);
-      controls.insertBefore(currentTime, controls.firstChild);
+      controls.insertBefore(playbackContainer, controls.firstChild);
+      controls.insertBefore(currentTimeContainer, controls.firstChild);
 
       videoPlayer.playbackDisplay = playback;
       videoPlayer.currentTimeDisplay = currentTime;
@@ -147,26 +150,25 @@
   }
 
   function initListener() {
-    videoPlayer.addEventListener("timeupdate", timeUpdate);
+    videoPlayer.addEventListener("timeupdate", updatePlaybackGUI);
     document
       .getElementById("funimation-gradient")
       .addEventListener("click", playerClicked);
     videoPlayer.addEventListener("click", playerClicked);
   }
 
-  function timeUpdate(e) {
-    videoPlayer.currentTimeDisplay.innerHTML =
-      "<span>" +
-      getDisplayTime(e.target.currentTime) +
-      " / " +
-      getDisplayTime(e.target.duration) +
-      "</span>";
+  function updatePlaybackGUI(e) {
+    const duration = getDisplayTime(videoPlayer.duration);
+    const currentTime = getDisplayTime(videoPlayer.currentTime);
+
+    videoPlayer.currentTimeDisplay.innerText = `${currentTime} / ${duration}`;
+    videoPlayer.playbackDisplay.innerText = videoPlayer.playbackRate;
   }
 
   function getDisplayTime(time) {
     if (isNaN(time)) return "0:00";
-    var seconds = parseInt(time % 60);
-    var minutes = parseInt((time / 60) % 60);
-    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+    const minutes = parseInt((time / 60) % 60).toString();
+    const seconds = parseInt(time % 60).toString();
+    return `${minutes}:${seconds.padStart(2, 0)}`;
   }
 })();
